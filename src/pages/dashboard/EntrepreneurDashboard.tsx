@@ -7,12 +7,14 @@ import { Badge } from '../../components/ui/Badge';
 import { CollaborationRequestCard } from '../../components/collaboration/CollaborationRequestCard';
 import { InvestorCard } from '../../components/investor/InvestorCard';
 import { useAuth } from '../../context/AuthContext';
+import { useMeetings } from '../../context/MeetingsContext';
 import { CollaborationRequest } from '../../types';
 import { getRequestsForEntrepreneur } from '../../data/collaborationRequests';
 import { investors } from '../../data/users';
 
 export const EntrepreneurDashboard: React.FC = () => {
   const { user } = useAuth();
+  const { meetings } = useMeetings();
   const [collaborationRequests, setCollaborationRequests] = useState<CollaborationRequest[]>([]);
   const [recommendedInvestors, setRecommendedInvestors] = useState(investors.slice(0, 3));
   
@@ -85,7 +87,8 @@ export const EntrepreneurDashboard: React.FC = () => {
           </CardBody>
         </Card>
         
-        <Card className="bg-accent-50 border border-accent-100">
+        <Link to="/calendar">
+        <Card className="bg-accent-50 border border-accent-100" hoverable>
           <CardBody>
             <div className="flex items-center">
               <div className="p-3 bg-accent-100 rounded-full mr-4">
@@ -93,16 +96,19 @@ export const EntrepreneurDashboard: React.FC = () => {
               </div>
               <div>
                 <p className="text-sm font-medium text-accent-700">Upcoming Meetings</p>
-                <h3 className="text-xl font-semibold text-accent-900">2</h3>
+                <h3 className="text-xl font-semibold text-accent-900">
+                  {meetings.filter(m => (m.requesterId === user.id || m.recipientId === user.id) && m.status === 'accepted' && new Date(m.date) >= new Date(new Date().toDateString())).length}
+                </h3>
               </div>
             </div>
           </CardBody>
         </Card>
+        </Link>
         
         <Card className="bg-success-50 border border-success-100">
           <CardBody>
             <div className="flex items-center">
-              <div className="p-3 bg-green-100 rounded-full mr-4">
+              <div className="p-3 bg-success-100 rounded-full mr-4">
                 <TrendingUp size={20} className="text-success-700" />
               </div>
               <div>

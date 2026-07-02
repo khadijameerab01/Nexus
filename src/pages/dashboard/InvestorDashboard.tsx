@@ -1,22 +1,30 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Users, PieChart, Filter, Search, PlusCircle } from 'lucide-react';
+import { Users, PieChart, Filter, Search, PlusCircle, Calendar } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { Card, CardBody, CardHeader } from '../../components/ui/Card';
 import { Input } from '../../components/ui/Input';
 import { Badge } from '../../components/ui/Badge';
 import { EntrepreneurCard } from '../../components/entrepreneur/EntrepreneurCard';
 import { useAuth } from '../../context/AuthContext';
+import { useMeetings } from '../../context/MeetingsContext';
 import { Entrepreneur } from '../../types';
 import { entrepreneurs } from '../../data/users';
 import { getRequestsFromInvestor } from '../../data/collaborationRequests';
 
 export const InvestorDashboard: React.FC = () => {
   const { user } = useAuth();
+  const { meetings } = useMeetings();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
   
   if (!user) return null;
+
+  const upcomingMeetings = meetings.filter(
+    m => (m.requesterId === user.id || m.recipientId === user.id) &&
+      m.status === 'accepted' &&
+      new Date(m.date) >= new Date(new Date().toDateString())
+  );
   
   // Get collaboration requests sent by this investor
   const sentRequests = getRequestsFromInvestor(user.id);
@@ -66,6 +74,22 @@ export const InvestorDashboard: React.FC = () => {
           </Button>
         </Link>
       </div>
+
+      <Link to="/calendar" className="block">
+        <Card className="bg-accent-50 border border-accent-100" hoverable>
+          <CardBody>
+            <div className="flex items-center">
+              <div className="p-3 bg-accent-100 rounded-full mr-4">
+                <Calendar size={20} className="text-accent-700" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-accent-700">Upcoming Meetings</p>
+                <h3 className="text-xl font-semibold text-accent-900">{upcomingMeetings.length}</h3>
+              </div>
+            </div>
+          </CardBody>
+        </Card>
+      </Link>
       
       {/* Filters and search */}
       <div className="flex flex-col md:flex-row gap-4">

@@ -79,3 +79,26 @@ export interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
 }
+
+export type MeetingStatus = 'pending' | 'accepted' | 'declined' | 'cancelled';
+
+export interface AvailabilitySlot {
+  id: string;
+  userId: string;
+  date: string;       // ISO date, e.g. '2026-07-05'
+  startTime: string;  // '09:00'
+  endTime: string;    // '09:30'
+  isBooked: boolean;
+}
+
+export interface Meeting {
+  id: string;
+  requesterId: string;   // user who requested the meeting
+  recipientId: string;   // user being asked to meet
+  date: string;           // ISO date
+  startTime: string;
+  endTime: string;
+  topic: string;
+  status: MeetingStatus;
+  createdAt: string;
+}
