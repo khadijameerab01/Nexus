@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Users, Bell, Calendar, TrendingUp, AlertCircle, PlusCircle } from 'lucide-react';
+import { Users, Bell, Calendar, TrendingUp, AlertCircle, PlusCircle, Wallet } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { Card, CardBody, CardHeader } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
@@ -118,6 +118,22 @@ export const EntrepreneurDashboard: React.FC = () => {
             </div>
           </CardBody>
         </Card>
+
+        <Link to="/payments">
+          <Card className="bg-secondary-50 border border-secondary-100" hoverable>
+            <CardBody>
+              <div className="flex items-center">
+                <div className="p-3 bg-secondary-100 rounded-full mr-4">
+                  <Wallet size={20} className="text-secondary-700" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-secondary-700">Wallet Balance</p>
+                  <h3 className="text-xl font-semibold text-secondary-900">$95,000</h3>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+        </Link>
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
