@@ -57,6 +57,8 @@ export interface CollaborationRequest {
   createdAt: string;
 }
 
+export type DocumentStatus = 'draft' | 'in-review' | 'signed';
+
 export interface Document {
   id: string;
   name: string;
@@ -66,6 +68,9 @@ export interface Document {
   shared: boolean;
   url: string;
   ownerId: string;
+  status: DocumentStatus;
+  signedAt?: string;
+  signatureDataUrl?: string;
 }
 
 export interface AuthContextType {
