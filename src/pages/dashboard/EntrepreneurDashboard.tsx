@@ -8,6 +8,7 @@ import { CollaborationRequestCard } from '../../components/collaboration/Collabo
 import { InvestorCard } from '../../components/investor/InvestorCard';
 import { useAuth } from '../../context/AuthContext';
 import { useMeetings } from '../../context/MeetingsContext';
+import { useTour } from '../../context/TourContext';
 import { CollaborationRequest } from '../../types';
 import { getRequestsForEntrepreneur } from '../../data/collaborationRequests';
 import { investors } from '../../data/users';
@@ -15,6 +16,7 @@ import { investors } from '../../data/users';
 export const EntrepreneurDashboard: React.FC = () => {
   const { user } = useAuth();
   const { meetings } = useMeetings();
+  const { startTour } = useTour();
   const [collaborationRequests, setCollaborationRequests] = useState<CollaborationRequest[]>([]);
   const [recommendedInvestors, setRecommendedInvestors] = useState(investors.slice(0, 3));
   
@@ -40,23 +42,28 @@ export const EntrepreneurDashboard: React.FC = () => {
   
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Welcome, {user.name}</h1>
           <p className="text-gray-600">Here's what's happening with your startup today</p>
         </div>
-        
-        <Link to="/investors">
-          <Button
-            leftIcon={<PlusCircle size={18} />}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={startTour}
+            className="text-sm text-primary-600 hover:text-primary-700 border border-primary-200 hover:border-primary-300 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5"
           >
-            Find Investors
-          </Button>
-        </Link>
+            <span>🗺️</span> Take a Tour
+          </button>
+          <Link to="/investors">
+            <Button leftIcon={<PlusCircle size={18} />}>
+              Find Investors
+            </Button>
+          </Link>
+        </div>
       </div>
       
       {/* Summary cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div data-tour="dashboard-stats" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="bg-primary-50 border border-primary-100">
           <CardBody>
             <div className="flex items-center">

@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { MeetingsProvider } from './context/MeetingsContext';
+import { TourProvider } from './context/TourContext';
 
 // Layouts
 import { DashboardLayout } from './components/layout/DashboardLayout';
@@ -38,6 +39,7 @@ function App() {
   return (
     <AuthProvider>
       <MeetingsProvider>
+      <TourProvider>
       <Router>
         <Routes>
           {/* Authentication Routes */}
@@ -112,6 +114,7 @@ function App() {
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </Router>
+      </TourProvider>
       </MeetingsProvider>
     </AuthProvider>
   );

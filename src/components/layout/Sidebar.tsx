@@ -10,12 +10,14 @@ interface SidebarItemProps {
   to: string;
   icon: React.ReactNode;
   text: string;
+  dataTour?: string;
 }
 
-const SidebarItem: React.FC<SidebarItemProps> = ({ to, icon, text }) => {
+const SidebarItem: React.FC<SidebarItemProps> = ({ to, icon, text, dataTour }) => {
   return (
     <NavLink
       to={to}
+      data-tour={dataTour || undefined}
       className={({ isActive }) => 
         `flex items-center py-2.5 px-4 rounded-md transition-colors duration-200 ${
           isActive 
@@ -37,25 +39,25 @@ export const Sidebar: React.FC = () => {
   
   // Define sidebar items based on user role
   const entrepreneurItems = [
-    { to: '/dashboard/entrepreneur', icon: <Home size={20} />, text: 'Dashboard' },
-    { to: '/profile/entrepreneur/' + user.id, icon: <Building2 size={20} />, text: 'My Startup' },
-    { to: '/investors', icon: <CircleDollarSign size={20} />, text: 'Find Investors' },
-    { to: '/calendar', icon: <Calendar size={20} />, text: 'Calendar' },
-    { to: '/payments', icon: <Wallet size={20} />, text: 'Payments' },
-    { to: '/messages', icon: <MessageCircle size={20} />, text: 'Messages' },
-    { to: '/notifications', icon: <Bell size={20} />, text: 'Notifications' },
-    { to: '/documents', icon: <FileText size={20} />, text: 'Documents' },
+    { to: '/dashboard/entrepreneur', icon: <Home size={20} />, text: 'Dashboard',      tour: 'sidebar-dashboard' },
+    { to: '/profile/entrepreneur/' + user.id, icon: <Building2 size={20} />, text: 'My Startup', tour: '' },
+    { to: '/investors', icon: <CircleDollarSign size={20} />, text: 'Find Investors',  tour: 'sidebar-investors' },
+    { to: '/calendar', icon: <Calendar size={20} />, text: 'Calendar',                 tour: 'sidebar-calendar' },
+    { to: '/payments', icon: <Wallet size={20} />, text: 'Payments',                   tour: 'sidebar-payments' },
+    { to: '/messages', icon: <MessageCircle size={20} />, text: 'Messages',            tour: 'sidebar-messages' },
+    { to: '/notifications', icon: <Bell size={20} />, text: 'Notifications',           tour: '' },
+    { to: '/documents', icon: <FileText size={20} />, text: 'Documents',               tour: 'sidebar-documents' },
   ];
   
   const investorItems = [
-    { to: '/dashboard/investor', icon: <Home size={20} />, text: 'Dashboard' },
-    { to: '/profile/investor/' + user.id, icon: <CircleDollarSign size={20} />, text: 'My Portfolio' },
-    { to: '/entrepreneurs', icon: <Users size={20} />, text: 'Find Startups' },
-    { to: '/calendar', icon: <Calendar size={20} />, text: 'Calendar' },
-    { to: '/payments', icon: <Wallet size={20} />, text: 'Payments' },
-    { to: '/messages', icon: <MessageCircle size={20} />, text: 'Messages' },
-    { to: '/notifications', icon: <Bell size={20} />, text: 'Notifications' },
-    { to: '/deals', icon: <FileText size={20} />, text: 'Deals' },
+    { to: '/dashboard/investor', icon: <Home size={20} />, text: 'Dashboard',          tour: 'sidebar-dashboard' },
+    { to: '/profile/investor/' + user.id, icon: <CircleDollarSign size={20} />, text: 'My Portfolio', tour: '' },
+    { to: '/entrepreneurs', icon: <Users size={20} />, text: 'Find Startups',          tour: 'sidebar-investors' },
+    { to: '/calendar', icon: <Calendar size={20} />, text: 'Calendar',                 tour: 'sidebar-calendar' },
+    { to: '/payments', icon: <Wallet size={20} />, text: 'Payments',                   tour: 'sidebar-payments' },
+    { to: '/messages', icon: <MessageCircle size={20} />, text: 'Messages',            tour: 'sidebar-messages' },
+    { to: '/notifications', icon: <Bell size={20} />, text: 'Notifications',           tour: '' },
+    { to: '/deals', icon: <FileText size={20} />, text: 'Deals',                       tour: 'sidebar-documents' },
   ];
   
   const sidebarItems = user.role === 'entrepreneur' ? entrepreneurItems : investorItems;
@@ -77,6 +79,7 @@ export const Sidebar: React.FC = () => {
                 to={item.to}
                 icon={item.icon}
                 text={item.text}
+                dataTour={item.tour}
               />
             ))}
           </div>
